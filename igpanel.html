@@ -3,7 +3,10 @@
 <dom-module id="ig-panel">
   <template>
     <style>
-
+      #thumbs
+      {
+        font-size: 0;
+      }
     </style>
 
     <div id="thumbs">
@@ -34,7 +37,19 @@
       {
         for (var x=0,l=imgs.length;x<l;x++)
         {
-          this.$.thumbs.insertAdjacentHTML("beforeend",`<img src="${imgs[x].slice(0,-4)+"b"+imgs[x].slice(-4)}">`);
+          this.$.thumbs.insertAdjacentHTML("beforeend",
+            `<a href="${x}"><img src="${imgs[x].slice(0,-4)+"b"+imgs[x].slice(-4)}"></a>`
+          );
+        }
+
+        var thumblinks=this.$.thumbs.querySelectorAll("a");
+        for (var x=0,l=thumblinks.length;x<l;x++)
+        {
+          thumblinks[x].addEventListener("click",(e)=>{
+            e.preventDefault();
+
+            igview.viewImg(parseInt(e.currentTarget.getAttribute("href")));
+          });
         }
       }
     }

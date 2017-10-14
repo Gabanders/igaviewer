@@ -67,3 +67,19 @@ function getAlbumInfo(url,callback)
     r.setRequestHeader("Authorization","Client-ID 28bf65f46c4de3c");
     r.send();
 }
+
+function viewLimits()
+{
+    var r=new XMLHttpRequest();
+    r.open("GET","https://api.imgur.com/3/credits");
+
+    r.onreadystatechange=()=>{
+        if (r.readyState==4)
+        {
+            console.log(r.response);
+        }
+    };
+
+    r.setRequestHeader("Authorization","Client-ID 28bf65f46c4de3c");
+    r.send();
+}
