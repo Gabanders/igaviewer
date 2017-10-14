@@ -7,15 +7,25 @@ function main()
 {
     igview=document.querySelector("ig-view");
 
-    getAlbum("xoMno",(r)=>{
-        imgs=[];
-        for (var x=0,l=r.data.length;x<l;x++)
-        {
-            imgs.push(r.data[x].link);
-        }
+    var argv=window.location.hash.split("#");
 
-        igview.loadImgs(imgs);
-    });
+    if (argv.length>1)
+    {
+        getAlbum(argv[1],(r)=>{
+            if (!r.success)
+            {
+                return;
+            }
+
+            imgs=[];
+            for (var x=0,l=r.data.length;x<l;x++)
+            {
+                imgs.push(r.data[x].link);
+            }
+
+            igview.loadImgs(imgs);
+        });
+    }
 }
 
 /*string url: imgur album tag string thing
