@@ -1,7 +1,6 @@
 window.onload=main;
 
 var igview;
-var imgs;
 
 function main()
 {
@@ -18,7 +17,7 @@ function main()
             }
 
             // console.log(r);
-            imgs=[];
+            var imgs=[];
             for (var x=0,l=r.data.length;x<l;x++)
             {
                 imgs.push(r.data[x].link);
@@ -52,6 +51,7 @@ function getAlbum(url,callback)
     r.send();
 }
 
+//same input/return style as getAlbum()
 function getAlbumInfo(url,callback)
 {
     var r=new XMLHttpRequest();

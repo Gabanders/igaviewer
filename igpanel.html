@@ -1,0 +1,44 @@
+<link rel="import" href="polymer/polymer/polymer-element.html">
+
+<dom-module id="ig-panel">
+  <template>
+    <style>
+
+    </style>
+
+    <div id="thumbs">
+
+    </div>
+  </template>
+
+  <script>
+    class igPanel extends Polymer.Element
+    {
+      static get is()
+      {
+        return "ig-panel";
+      }
+
+      /*
+
+      */
+      static get properties()
+      {
+        return {
+
+        };
+      }
+
+      //load non-thumbnail img array
+      loadNTImgs(imgs)
+      {
+        for (var x=0,l=imgs.length;x<l;x++)
+        {
+          this.$.thumbs.insertAdjacentHTML("beforeend",`<img src="${imgs[x].slice(0,-4)+"b"+imgs[x].slice(-4)}">`);
+        }
+      }
+    }
+
+    customElements.define(igPanel.is,igPanel);
+  </script>
+</dom-module>
