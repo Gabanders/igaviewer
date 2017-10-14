@@ -1,0 +1,112 @@
+<link rel="import" href="polymer/polymer/polymer-element.html">
+
+<dom-module id="ig-view">
+  <template>
+    <style>
+      :host
+      {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .viewer
+      {
+        position: relative;
+      }
+
+      img
+      {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .nav-button
+      {
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        z-index: 10;
+      }
+
+      #nav-b
+      {
+        left: 0;
+      }
+
+      #nav-f
+      {
+        right: 0;
+      }
+    </style>
+
+    <div class="viewer">
+      <div id="nav-b" class="nav-button" on-click="navBackward"></div>
+      <div id="nav-f" class="nav-button" on-click="navForward"></div>
+      <img src="[[curImg]]">
+    </div>
+
+  </template>
+
+  <script>
+    /*
+      array imgs: array of img links
+      int currentIndex: index of current shown img
+      string [[curImg]]: src img of current displayed image
+    */
+    class igView extends Polymer.Element
+    {
+      static get is()
+      {
+        return "ig-view";
+      }
+
+      static get properties()
+      {
+        return {
+
+        };
+      }
+
+      ready()
+      {
+        super.ready();
+
+        this.currentIndex=0;
+      }
+
+      //load array of image string urls
+      loadImgs(imgs)
+      {
+        this.imgs=imgs;
+        this.viewImg(0);
+      }
+
+      //jump to given index
+      viewImg(index)
+      {
+        if (index>=this.imgs.length || index<0)
+        {
+          //insert something for end or beginning of gallery here
+          return;
+        }
+
+        this.currentIndex=index;
+        this.curImg=this.imgs[index];
+      }
+
+      navForward()
+      {
+        this.viewImg(this.currentIndex+1);
+      }
+
+      navBackward()
+      {
+        this.viewImg(this.currentIndex-1);
+      }
+    }
+
+    customElements.define(igView.is,igView);
+  </script>
+</dom-module>
