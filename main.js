@@ -17,6 +17,7 @@ function main()
                 return;
             }
 
+            // console.log(r);
             imgs=[];
             for (var x=0,l=r.data.length;x<l;x++)
             {
@@ -24,6 +25,10 @@ function main()
             }
 
             igview.loadImgs(imgs);
+        });
+
+        getAlbumInfo(argv[1],(r)=>{
+            document.title=r.data.title;
         });
     }
 }
@@ -35,6 +40,22 @@ function getAlbum(url,callback)
 {
     var r=new XMLHttpRequest();
     r.open("GET",`https://api.imgur.com/3/album/${url}/images`);
+
+    r.onreadystatechange=()=>{
+        if (r.readyState==4)
+        {
+            callback(JSON.parse(r.response));
+        }
+    };
+
+    r.setRequestHeader("Authorization","Client-ID 28bf65f46c4de3c");
+    r.send();
+}
+
+function getAlbumInfo(url,callback)
+{
+    var r=new XMLHttpRequest();
+    r.open("GET",`https://api.imgur.com/3/album/${url}`);
 
     r.onreadystatechange=()=>{
         if (r.readyState==4)
