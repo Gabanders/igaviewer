@@ -7,7 +7,7 @@ function main()
 {
     igview=document.querySelector("ig-view");
 
-    getAlbum("HhmyT",(r)=>{
+    getAlbum("xoMno",(r)=>{
         imgs=[];
         for (var x=0,l=r.data.length;x<l;x++)
         {
