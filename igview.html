@@ -43,8 +43,8 @@
     </style>
 
     <div class="viewer">
-      <div id="nav-b" class="nav-button" on-click="navBackward"></div>
-      <div id="nav-f" class="nav-button" on-click="navForward"></div>
+      <a id="nav-b" class="nav-button" on-click="navBackward" href=""></a>
+      <a id="nav-f" class="nav-button" on-click="navForward" href=""></a>
       <img src="[[curImg]]">
     </div>
 
@@ -97,13 +97,15 @@
         this.curImg=this.imgs[index];
       }
 
-      navForward()
+      navForward(e)
       {
+        e.preventDefault();
         this.viewImg(this.currentIndex+1);
       }
 
-      navBackward()
+      navBackward(e)
       {
+        e.preventDefault();
         this.viewImg(this.currentIndex-1);
       }
     }
