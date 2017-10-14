@@ -10,8 +10,15 @@
         height: 100%;
       }
 
+      .wrap
+      {
+        width: 100%;
+        text-align: center;
+      }
+
       .viewer
       {
+        display: inline-block;
         position: relative;
       }
 
@@ -41,10 +48,12 @@
       }
     </style>
 
-    <div class="viewer">
-      <div id="nav-b" class="nav-button" on-click="navBackward"></div>
-      <div id="nav-f" class="nav-button" on-click="navForward"></div>
-      <img src="[[curImg]]">
+    <div class="wrap">
+      <div class="viewer">
+        <div id="nav-b" class="nav-button" on-click="navBackward"></div>
+        <div id="nav-f" class="nav-button" on-click="navForward"></div>
+        <img src="[[curImg]]">
+      </div>
     </div>
 
   </template>
