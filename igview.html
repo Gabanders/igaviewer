@@ -57,6 +57,8 @@
         color: white;
         font-family: "Open Sans";
         font-size: 25px;
+        margin-top: 20px;
+        cursor: pointer;
       }
 
       #progress span
@@ -64,7 +66,7 @@
         font-weight: bold;
       }
 
-      .hidden
+      #progress .hidden
       {
         display: none;
       }
@@ -76,9 +78,9 @@
       <img src="[[curImg]]">
     </div>
 
-    <div id="progress" class="hidden"><span>[[currentIndexB]]</span> of <span>[[totalImg]]</span></div>
+    <div id="progress" class="hidden" on-click="showPanel"><span>[[currentIndexB]]</span> of <span>[[totalImg]]</span></div>
 
-    <ig-panel id="panel"></ig-panel>
+    <ig-panel id="panel" class="hidden"></ig-panel>
 
   </template>
 
@@ -148,6 +150,11 @@
       {
         e.preventDefault();
         this.viewImg(this.currentIndex-1);
+      }
+
+      showPanel(e)
+      {
+        this.$.panel.classList.remove("hidden");
       }
     }
 
