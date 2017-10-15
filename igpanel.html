@@ -3,9 +3,29 @@
 <dom-module id="ig-panel">
   <template>
     <style>
+      :host
+      {
+        position: absolute;
+        display: block;
+        top: 0;
+        width: 100%;
+        background-color: rgba(20, 21, 24, 0.6);
+        z-index: 11;
+      }
+
       #thumbs
       {
+        display: inline-block;
+        max-width: 1020px;
+        padding-top: 50px;
         font-size: 0;
+        text-align: left;
+      }
+
+      #thumbs a
+      {
+        display: inline-block;
+        margin: 0 10px 10px 0;
       }
     </style>
 
@@ -37,9 +57,19 @@
       {
         for (var x=0,l=imgs.length;x<l;x++)
         {
-          this.$.thumbs.insertAdjacentHTML("beforeend",
-            `<a href="${x}"><img src="${imgs[x].slice(0,-4)+"b"+imgs[x].slice(-4)}"></a>`
-          );
+          if (imgs[x].slice(-1)=="v")
+          {
+            this.$.thumbs.insertAdjacentHTML("beforeend",
+              `<a href="${x}"><img src="${imgs[x].slice(0,-5)+"b.jpg"}"></a>`
+            );
+          }
+
+          else
+          {
+            this.$.thumbs.insertAdjacentHTML("beforeend",
+              `<a href="${x}"><img src="${imgs[x].slice(0,-4)+"b.jpg"}"></a>`
+            );
+          }
         }
 
         var thumblinks=this.$.thumbs.querySelectorAll("a");

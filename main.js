@@ -20,7 +20,15 @@ function main()
             var imgs=[];
             for (var x=0,l=r.data.length;x<l;x++)
             {
-                imgs.push(r.data[x].link);
+                if (r.data[x].gifv)
+                {
+                    imgs.push(r.data[x].gifv.slice(0,-1));
+                }
+
+                else
+                {
+                    imgs.push(r.data[x].link);
+                }
             }
 
             igview.loadImgs(imgs);
