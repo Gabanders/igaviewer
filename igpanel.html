@@ -33,7 +33,7 @@
       {
         display: inline-block;
         max-width: 1020px;
-        padding: 50px 0 0 20px;
+        padding: 50px 0 0 14px;
         font-size: 0;
         text-align: left;
         opacity: 1;
@@ -43,10 +43,36 @@
       #thumbs a
       {
         display: inline-block;
-        width: 30%;
+        width: 47%;
         margin: 0 10px 10px 0;
         border-radius: 2px;
         overflow: hidden;
+      }
+
+      @media (min-width: 465px)
+      {
+        #thumbs a
+        {
+          width: 31%;
+        }
+
+        #thumbs
+        {
+          padding-left: 24px;
+        }
+      }
+
+      @media (min-width: 1000px)
+      {
+        #thumbs a
+        {
+          width: 18%;
+        }
+
+        #thumbs
+        {
+          padding-left: 50px;
+        }
       }
 
       #thumbs img
