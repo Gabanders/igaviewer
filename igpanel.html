@@ -47,6 +47,7 @@
         margin: 0 10px 10px 0;
         border-radius: 2px;
         overflow: hidden;
+        box-sizing: border-box;
       }
 
       @media (min-width: 465px)
@@ -75,6 +76,11 @@
         }
       }
 
+      #thumbs a.selected
+      {
+        border: 3px solid white;
+      }
+
       #thumbs img
       {
         width: 100%;
@@ -95,7 +101,8 @@
       }
 
       /*
-        element-array thumblinks: array of thumblinks
+        element-array thumblinks: array of thumblinks (<a> elements)
+        element currentTl: current thumblink, <a> element currently selected
       */
       static get properties()
       {
@@ -107,6 +114,7 @@
       //load non-thumbnail img array
       loadNTImgs(imgs)
       {
+        //creating thumblinks
         for (var x=0,l=imgs.length;x<l;x++)
         {
           if (imgs[x].slice(-1)=="v")
@@ -124,6 +132,7 @@
           }
         }
 
+        //selecting/adding events to thumblinks
         this.thumblinks=this.$.thumbs.querySelectorAll("a");
         for (var x=0,l=this.thumblinks.length;x<l;x++)
         {
@@ -134,6 +143,19 @@
             this.classList.add("hidden");
           });
         }
+      }
+
+      //give index to be jumped to
+      jumpTo(img)
+      {
+        if (this.currentTl)
+        {
+          this.currentTl.classList.remove("selected");
+        }
+
+        this.currentTl=this.thumblinks[img];
+        this.currentTl.classList.add("selected");
+        this.currentTl.scrollIntoView();
       }
     }
 
