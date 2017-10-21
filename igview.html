@@ -33,6 +33,12 @@
         height: auto;
       }
 
+      a
+      {
+        color: white;
+        text-decoration: none;
+      }
+
       .nav-button
       {
         position: absolute;
@@ -54,10 +60,11 @@
 
       #progress
       {
+        display: block;
         color: white;
         font-family: "Open Sans";
         font-size: 25px;
-        margin-top: 20px;
+        padding: 20px 0 20px 0;
         cursor: pointer;
       }
 
@@ -78,7 +85,7 @@
       <img src="[[curImg]]">
     </div>
 
-    <div id="progress" class="hidden" on-click="showPanel"><span>[[currentIndexB]]</span> of <span>[[totalImg]]</span></div>
+    <a id="progress" class="hidden" on-click="showPanel"><span>[[currentIndexB]]</span> of <span>[[totalImg]]</span></a>
 
     <ig-panel id="panel" class="hidden"></ig-panel>
 
@@ -154,6 +161,7 @@
 
       showPanel(e)
       {
+        e.preventDefault();
         this.$.panel.classList.remove("hidden");
         this.$.panel.jumpTo(this.currentIndex);
       }
