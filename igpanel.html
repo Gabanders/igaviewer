@@ -177,6 +177,16 @@
         width: 25%;
         height: 100%;
       }
+
+      #action-bar .bar-button.extra.selected
+      {
+        background-color: rgba(234,79,95,0.45);
+      }
+
+      #action-bar .bar-button.extra.selected:hover
+      {
+        background-color: rgba(238,114,127,.51);
+      }
     </style>
 
     <div class="thumb-holder">
@@ -216,6 +226,7 @@
       /*
         element-array thumblinks: array of thumblinks (<a> elements)
         element currentTl: current thumblink, <a> element currently selected
+        element selectedButton: element of currently selected button
       */
       static get properties()
       {
@@ -284,9 +295,24 @@
 
       viewerFit(e)
       {
+        e=e.currentTarget;
         igview.classList.remove("wide","tall","original");
 
-        switch (e.currentTarget.dataset.fit)
+        if (e.classList.contains("selected"))
+        {
+          e.classList.remove("selected");
+          delete this.selectedButton;
+          return;
+        }
+
+        if (this.selectedButton)
+        {
+          this.selectedButton.classList.remove("selected");
+        }
+        this.selectedButton=e;
+        e.classList.add("selected");
+
+        switch (e.dataset.fit)
         {
           case "0":
           igview.classList.add("wide");
