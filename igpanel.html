@@ -48,6 +48,7 @@
         border-radius: 2px;
         overflow: hidden;
         box-sizing: border-box;
+        background-color: #d0d0d0;
       }
 
       @media (min-width: 465px)
@@ -84,6 +85,12 @@
       #thumbs img
       {
         width: 100%;
+        transition: opacity 80ms;
+      }
+
+      #thumbs a:hover > img
+      {
+        opacity: .8;
       }
 
       .thumb-holder
