@@ -189,9 +189,9 @@
       <div class="all-container">
         <div class="all-inner">
           <div class="extra-bar">
-            <div class="bar-button extra"><img src="icons/widefit.png"></div>
-            <div class="bar-button extra"><img src="icons/tallfit.png"></div>
-            <div class="bar-button extra"><img src="icons/originalfit.png"></div>
+            <div class="bar-button extra" data-fit="0" on-click="viewerFit"><img src="icons/widefit.png"></div>
+            <div class="bar-button extra" data-fit="1" on-click="viewerFit"><img src="icons/tallfit.png"></div>
+            <div class="bar-button extra" data-fit="2" on-click="viewerFit"><img src="icons/originalfit.png"></div>
             <div class="bar-button extra"></div>
           </div>
 
@@ -280,6 +280,26 @@
       toggleBar(e)
       {
         this.$["action-bar"].classList.toggle("expanded");
+      }
+
+      viewerFit(e)
+      {
+        igview.classList.remove("wide","tall","original");
+
+        switch (e.currentTarget.dataset.fit)
+        {
+          case "0":
+          igview.classList.add("wide");
+          break;
+
+          case "1":
+          igview.classList.add("tall");
+          break;
+
+          case "2":
+          igview.classList.add("original");
+          break;
+        }
       }
     }
 

@@ -6,8 +6,8 @@
     <style>
       :host
       {
-        display: block;
-        max-width: 100%;
+        display: inline-block;
+        min-width: 100%;
         text-align: center;
       }
 
@@ -76,6 +76,22 @@
       #progress.hidden
       {
         display: none;
+      }
+
+      :host(.wide) .viewer,:host(.tall) .viewer,:host(.original) .viewer
+      {
+        max-width: initial;
+      }
+
+      :host(.tall) .viewer img
+      {
+        width: auto;
+        height: 100vh;
+      }
+
+      :host(.original) .viewer img
+      {
+        width: auto;
       }
     </style>
 
