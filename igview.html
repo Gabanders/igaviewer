@@ -103,7 +103,7 @@
 
     <a id="progress" class="hidden" on-click="showPanel"><span>[[currentIndexB]]</span> of <span>[[totalImg]]</span></a>
 
-    <ig-panel id="panel" class="hidden"></ig-panel>
+    <ig-panel id="panel" class="hidden unclickable"></ig-panel>
 
   </template>
 
@@ -178,7 +178,7 @@
       showPanel(e)
       {
         e.preventDefault();
-        this.$.panel.classList.remove("hidden");
+        this.$.panel.classList.remove("hidden","unclickable");
         this.$.panel.jumpTo(this.currentIndex);
       }
     }

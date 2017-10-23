@@ -24,6 +24,11 @@
         transition-delay: 0s,.2s;
       }
 
+      :host(.hidden.unclickable)
+      {
+        height: 0;
+      }
+
       :host(.hidden) #thumbs
       {
         opacity: 0;
@@ -116,7 +121,7 @@
         height: 165px;
       }
 
-      #action-bar div
+      #action-bar div,#action-bar a
       {
         display: inline-block;
       }
@@ -200,15 +205,15 @@
       <div class="all-container">
         <div class="all-inner">
           <div class="extra-bar">
-            <div class="bar-button extra" data-fit="0" on-click="viewerFit"><img src="icons/widefit.png"></div>
-            <div class="bar-button extra" data-fit="1" on-click="viewerFit"><img src="icons/tallfit.png"></div>
-            <div class="bar-button extra" data-fit="2" on-click="viewerFit"><img src="icons/originalfit.png"></div>
-            <div class="bar-button extra"></div>
+            <a class="bar-button extra" data-fit="0" on-click="viewerFit"><img src="icons/widefit.png"></a>
+            <a class="bar-button extra" data-fit="1" on-click="viewerFit"><img src="icons/tallfit.png"></a>
+            <a class="bar-button extra" data-fit="2" on-click="viewerFit"><img src="icons/originalfit.png"></a>
+            <a class="bar-button extra"></a>
           </div>
 
           <div class="bar-container">
-            <div class="bar-button" on-click="panelHide">✖</div>
-            <div class="bar-button" on-click="toggleBar">・・・</div>
+            <a class="bar-button" on-click="panelHide">✖</a>
+            <a class="bar-button" on-click="toggleBar">・・・</a>
           </div>
         </div>
       </div>
@@ -287,6 +292,10 @@
       {
         this.classList.add("hidden");
         this.$["action-bar"].classList.remove("expanded");
+
+        setTimeout(()=>{
+          this.classList.add("unclickable");
+        },200);
       }
 
       toggleBar(e)
