@@ -167,12 +167,14 @@
       {
         e.preventDefault();
         this.viewImg(this.currentIndex+1);
+        window.scrollTo(0,0);
       }
 
       navBackward(e)
       {
         e.preventDefault();
         this.viewImg(this.currentIndex-1);
+        window.scrollTo(0,0);
       }
 
       showPanel(e)
