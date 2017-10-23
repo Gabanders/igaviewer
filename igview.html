@@ -182,6 +182,7 @@
         e.preventDefault();
         this.$.panel.classList.remove("hidden","unclickable");
         this.$.panel.jumpTo(this.currentIndex);
+        document.body.classList.add("noscroll");
       }
     }
 
