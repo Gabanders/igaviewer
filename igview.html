@@ -155,6 +155,11 @@
           {
             this.navBackward();
           }
+
+          else if (e.key=="a")
+          {
+            this.showPanel();
+          }
         });
       }
 
@@ -208,11 +213,19 @@
 
       showPanel(e)
       {
-        e.preventDefault();
-        this.$.panel.classList.remove("hidden","unclickable");
+        if (e)
+        {
+          e.preventDefault();
+        }
+
+        this.$.panel.classList.remove("unclickable");
         this.$.panel.jumpTo(this.currentIndex);
         document.body.classList.add("noscroll");
         this.keyboardDisable=1;
+
+        setTimeout(()=>{
+          this.$.panel.classList.remove("hidden");
+        },30);
       }
     }
 
