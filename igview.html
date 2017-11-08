@@ -111,6 +111,9 @@
     /*
       array imgs: array of img links
       int currentIndex: index of current shown img
+
+      int keyboardDisable;
+
       bound-int currentIndexB: bindable version of currentIndex, incremented by 1
       bound-int totalImg: number of loaded images
       bound-string curImg: src img of current displayed image
@@ -135,6 +138,24 @@
 
         this.currentIndex=0;
         this.totalImg=0;
+
+        this.keyboardDisable=0;
+        document.addEventListener("keydown",(e)=>{
+          if (this.keyboardDisable)
+          {
+            return;
+          }
+
+          if (e.key=="ArrowRight")
+          {
+            this.navForward();
+          }
+
+          else if (e.key=="ArrowLeft")
+          {
+            this.navBackward();
+          }
+        });
       }
 
       //load array of image string urls
@@ -165,14 +186,22 @@
 
       navForward(e)
       {
-        e.preventDefault();
+        if (e)
+        {
+          e.preventDefault();
+        }
+
         this.viewImg(this.currentIndex+1);
         window.scrollTo(0,0);
       }
 
       navBackward(e)
       {
-        e.preventDefault();
+        if (e)
+        {
+          e.preventDefault();
+        }
+
         this.viewImg(this.currentIndex-1);
         window.scrollTo(0,0);
       }
@@ -183,6 +212,7 @@
         this.$.panel.classList.remove("hidden","unclickable");
         this.$.panel.jumpTo(this.currentIndex);
         document.body.classList.add("noscroll");
+        this.keyboardDisable=1;
       }
     }
 
