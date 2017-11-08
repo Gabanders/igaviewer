@@ -27,6 +27,7 @@
       :host(.hidden.unclickable)
       {
         height: 0;
+        display: none;
       }
 
       :host(.hidden) #thumbs
@@ -317,11 +318,11 @@
 
       panelHide(e)
       {
-        igview.keyboardDisable=0;
         window.scrollTo(0,0);
         this.classList.add("hidden");
         this.$["action-bar"].classList.remove("expanded");
         document.body.classList.remove("noscroll");
+        igview.keyboardDisable=0;
 
         setTimeout(()=>{
           this.classList.add("unclickable");
