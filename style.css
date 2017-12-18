@@ -10,3 +10,9 @@ body
 {
     overflow: hidden;
 }
+
+.start-box
+{
+    color: white;
+    font-family: roboto;
+}
