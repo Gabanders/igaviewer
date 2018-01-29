@@ -93,6 +93,25 @@
       {
         width: auto;
       }
+
+      .fit-popup
+      {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        margin-left: -60px;
+        width: 120px;
+        height: 100px;
+        background-color: rgba(255,255,255,.6);
+        border-radius: 0 0 15px 15px;
+        opacity: 0;
+        transition: opacity .15s;
+      }
+
+      .fit-popup.show
+      {
+        opacity: 1;
+      }
     </style>
 
     <div class="viewer">
@@ -105,6 +124,7 @@
 
     <ig-panel id="panel" class="hidden unclickable"></ig-panel>
 
+    <div id="fit-popup" class="fit-popup"></div>
   </template>
 
   <script>
@@ -117,6 +137,8 @@
       bound-int currentIndexB: bindable version of currentIndex, incremented by 1
       bound-int totalImg: number of loaded images
       bound-string curImg: src img of current displayed image
+
+      timeout currentFitTime
     */
     class igView extends Polymer.Element
     {
@@ -169,6 +191,7 @@
           else if (e.key=="m")
           {
             this.$["panel"].viewerFit(0,1);
+            this.showFitPopup();
           }
         });
       }
@@ -236,6 +259,20 @@
         setTimeout(()=>{
           this.$.panel.classList.remove("hidden");
         },30);
+      }
+
+      showFitPopup(fit)
+      {
+        this.$["fit-popup"].classList.add("show");
+
+        if (this.currentFitTime)
+        {
+          clearTimeout(this.currentFitTime);
+        }
+
+        this.currentFitTime=setTimeout(()=>{
+          this.$["fit-popup"].classList.remove("show");
+        },500);
       }
     }
 
