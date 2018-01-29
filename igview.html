@@ -191,7 +191,6 @@
           else if (e.key=="m")
           {
             this.$["panel"].viewerFit(0,1);
-            this.showFitPopup();
           }
         });
       }
@@ -261,8 +260,13 @@
         },30);
       }
 
+      //call with a fit number to display the fit popup
       showFitPopup(fit)
       {
+        //logic for changing descriptive image inside fit goes here:
+        this.$["fit-popup"].innerHTML=fit;
+        //--------
+
         this.$["fit-popup"].classList.add("show");
 
         if (this.currentFitTime)
