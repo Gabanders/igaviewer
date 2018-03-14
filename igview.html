@@ -169,6 +169,19 @@
 
         this.keyboardDisable=0;
         document.addEventListener("keydown",(e)=>{
+          if (e.key=="a")
+          {
+            if (this.$["panel"].classList.contains("hidden"))
+            {
+              this.showPanel();
+            }
+
+            else
+            {
+              this.$["panel"].panelHide();
+            }
+          }
+
           if (this.keyboardDisable)
           {
             return;
@@ -182,11 +195,6 @@
           else if (e.key=="ArrowLeft")
           {
             this.navBackward();
-          }
-
-          else if (e.key=="a")
-          {
-            this.showPanel();
           }
 
           else if (e.key=="i")
