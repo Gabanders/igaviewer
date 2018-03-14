@@ -112,6 +112,12 @@
       {
         opacity: 1;
       }
+
+      #fit-popimg
+      {
+        width: auto;
+        margin-top: 7px;
+      }
     </style>
 
     <div class="viewer">
@@ -124,7 +130,7 @@
 
     <ig-panel id="panel" class="hidden unclickable"></ig-panel>
 
-    <div id="fit-popup" class="fit-popup"></div>
+    <div id="fit-popup" class="fit-popup"><img id="fit-popimg"></div>
   </template>
 
   <script>
@@ -263,9 +269,7 @@
       //call with a fit number to display the fit popup
       showFitPopup(fit)
       {
-        //logic for changing descriptive image inside fit goes here:
-        this.$["fit-popup"].innerHTML=fit;
-        //--------
+        this.$["fit-popimg"].src=`icons/dark/${fit}.png`;
 
         this.$["fit-popup"].classList.add("show");
 
