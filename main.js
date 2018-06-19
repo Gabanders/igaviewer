@@ -91,3 +91,17 @@ function viewLimits()
     r.setRequestHeader("Authorization","Client-ID 28bf65f46c4de3c");
     r.send();
 }
+
+//manual load a list of links. since its not imgur, things will be broken
+function manualLoad(urllist)
+{
+    urllist=urllist.split("\n");
+
+    //clean up last line if it was empty
+    if (urllist[urllist.length-1].length<30)
+    {
+        urllist.pop();
+    }
+
+    igview.loadImgs(urllist);
+}
