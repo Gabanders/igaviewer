@@ -232,7 +232,7 @@
     <div id="action-bar">
       <div class="all-container">
         <div class="all-inner">
-          <div class="extra-bar">
+          <div id="extra-bar" class="extra-bar">
             <a class="bar-button extra" data-fit="0" on-click="viewerFit"><img src="icons/widefit.png"></a>
             <a class="bar-button extra" data-fit="1" on-click="viewerFit"><img src="icons/tallfit.png"></a>
             <a class="bar-button extra" data-fit="2" on-click="viewerFit"><img src="icons/originalfit.png"></a>
@@ -261,12 +261,23 @@
         element-array thumblinks: array of thumblinks (<a> elements)
         element currentTl: current thumblink, <a> element currently selected
         element selectedButton: element of currently selected button
+
+        element-array fitButtons
+        int fitInt
       */
       static get properties()
       {
         return {
 
         };
+      }
+
+      ready()
+      {
+        super.ready();
+
+        this.fitButtons=this.$["extra-bar"].querySelectorAll(".bar-button");
+        this.fitInt=-1;
       }
 
       //load non-thumbnail img array
@@ -335,15 +346,46 @@
         this.$["action-bar"].classList.toggle("expanded");
       }
 
-      viewerFit(e)
+      //internal function used to change fit modes although i definitely should have
+      //made it a general function.
+      //call it with true toggleMode to toggle through the fit modes, e does not matter
+      //when using in this way
+      viewerFit(e,toggleMode=0)
       {
-        e=e.currentTarget;
+        if (toggleMode)
+        {
+          this.fitInt++;
+
+          if (this.fitInt>2)
+          {
+            this.fitInt=-1;
+          }
+
+          igview.showFitPopup(this.fitInt);
+
+          if (this.fitInt>=0)
+          {
+            e=this.fitButtons[this.fitInt];
+          }
+
+          else
+          {
+            e=this.selectedButton;
+          }
+        }
+
+        else
+        {
+          e=e.currentTarget;
+        }
+
         igview.classList.remove("wide","tall","original");
 
         if (e.classList.contains("selected"))
         {
           e.classList.remove("selected");
           delete this.selectedButton;
+          this.fitInt=-1;
           return;
         }
 
@@ -353,6 +395,8 @@
         }
         this.selectedButton=e;
         e.classList.add("selected");
+
+        this.fitInt=parseInt(e.dataset.fit);
 
         switch (e.dataset.fit)
         {
