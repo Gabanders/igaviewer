@@ -3,6 +3,8 @@
 
 imgur displays its albums like an image thread.  sometimes i want to view it one image at a time, like a slideshow or a comic book, and sometimes jump around. that's what igaviewer does.
 
+example: https://risonakamo.github.io/igaviewer/#V1z82
+
 ## opening imgur album
 1. go to the imgur album page and copy the id of the imgur album
 
@@ -14,7 +16,7 @@ imgur displays its albums like an image thread.  sometimes i want to view it one
 
     If you have already navigated to the igaviewer page and have just typed in the hash tag value, you'll need to reload.
 
-    here's the example as seen in the screenshots: https://risonakamo.github.io/igaviewer/#V1z82
+    here's the example again (as seen in the screenshots): https://risonakamo.github.io/igaviewer/#V1z82
 
 ## key controls
 **left arrow, right arrow** move to next and previous image
