@@ -348,11 +348,10 @@
 
       //internal function used to change fit modes although i definitely should have
       //made it a general function.
-      //call it with true toggleMode to toggle through the fit modes, e does not matter
-      //when using in this way
-      viewerFit(e,toggleMode=0)
+      //call it with e=0 (not an event listener) to toggle
+      viewerFit(e)
       {
-        if (toggleMode)
+        if (!e)
         {
           this.fitInt++;
 
