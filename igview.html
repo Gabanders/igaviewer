@@ -168,9 +168,12 @@
         this.totalImg=0;
 
         this.keyboardDisable=0;
+        this.IvViewer=new ImageViewer.FullScreenViewer();
+
         document.addEventListener("keydown",(e)=>{
           if (e.key=="a")
           {
+            this.IvViewer.hide();
             if (this.$["panel"].classList.contains("hidden"))
             {
               this.showPanel();
@@ -190,21 +193,29 @@
           if (e.key=="ArrowRight")
           {
             this.navForward();
+            this.IvViewer.hide();
           }
 
           else if (e.key=="ArrowLeft")
           {
             this.navBackward();
+            this.IvViewer.hide();
           }
 
           else if (e.key=="i")
           {
-            window.open(this.curImg);
+            this.IvViewer.show(this.curImg);
           }
 
           else if (e.key=="m")
           {
             this.$["panel"].viewerFit(0);
+            this.IvViewer.hide();
+          }
+
+          else if (e.key=="Escape")
+          {
+            this.IvViewer.hide();
           }
         });
       }
