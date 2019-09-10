@@ -169,11 +169,13 @@
 
         this.keyboardDisable=0;
         this.IvViewer=new ImageViewer.FullScreenViewer();
+        this.IvShown=false;
+        this.lastZoom=100;
 
         document.addEventListener("keydown",(e)=>{
           if (e.key=="a")
           {
-            this.IvViewer.hide();
+            this.doIvHide();
             if (this.$["panel"].classList.contains("hidden"))
             {
               this.showPanel();
@@ -193,31 +195,87 @@
           if (e.key=="ArrowRight")
           {
             this.navForward();
-            this.IvViewer.hide();
+
+            if (this.IvShown)
+            {
+              this.doIvShow(this.curImg);
+            }
           }
 
           else if (e.key=="ArrowLeft")
           {
             this.navBackward();
-            this.IvViewer.hide();
+
+            if (this.IvShown)
+            {
+              this.doIvShow(this.curImg);
+            }
           }
 
           else if (e.key=="i")
           {
-            this.IvViewer.show(this.curImg);
+            if (!this.IvShown)
+            {
+              this.doIvShow(this.curImg);
+            }
+
+            else
+            {
+              this.doIvHide();
+            }
           }
 
           else if (e.key=="m")
           {
             this.$["panel"].viewerFit(0);
-            this.IvViewer.hide();
+
+            this.doIvHide();
           }
 
           else if (e.key=="Escape")
           {
-            this.IvViewer.hide();
+            this.doIvHide();
           }
         });
+      }
+
+      //hide the iv viewer
+      doIvHide()
+      {
+        this.IvViewer.hide();
+        this.IvShown=false;
+      }
+
+      //show the iv viewer. if the iv viewer is already showing, update the image
+      //while keeping the zoom
+      doIvShow(img)
+      {
+        if (this.IvShown)
+        {
+          var lastZoom=this.IvViewer._state.zoomValue;
+          this.IvViewer.show(this.curImg);
+
+          this.tryZoom(lastZoom);
+
+          return;
+        }
+
+        this.IvViewer.show(this.curImg);
+        this.IvShown=true;
+      }
+
+      //try to zoom in, if it isnt loaded yet, wait a bit
+      tryZoom(targetZoomLevel)
+      {
+        setTimeout(()=>{
+          if (!this.IvViewer._state.loaded)
+          {
+            this.tryZoom(targetZoomLevel);
+            return;
+          }
+
+          this.IvViewer.zoom(targetZoomLevel);
+        },100);
       }
 
       //load array of image string urls
