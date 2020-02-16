@@ -1,5 +1,9 @@
 <script src="polymer/webcomponents-lite.js"></script>
-<link rel="import" href="polymer/polymer/polymer.html" onload="document.write("<dom-module id="ig-view">
+<link rel="import" href="polymer/polymer/polymer.html" import-dependency>
+
+<link rel="import" href="igpanel.html" import-dependency>
+
+<dom-module id="ig-view">
   <template>
     <style>
       :host
@@ -364,7 +368,3 @@
     customElements.define(igView.is,igView);
   </script>
 </dom-module>
-")"  import-dependency>
-
-<link rel="import" href="igpanel.html" import-dependency>
-
