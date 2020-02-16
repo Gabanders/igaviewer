@@ -1,28 +1,7 @@
 <script src="polymer/html-imports.min.js"></script>
-
-<!-- <link rel="import" href="polymer/polymer/polymer.html" import-dependency> -->
+<link rel="import" href="polymer/polymer/polymer.html" import-dependency>
 
 <link rel="import" href="igpanel.html" import-dependency>
-
-<script>console.clear()</script>
-<script src="//www.polymer-project.org/components/platform/platform.js"></script>
-<link rel="import" href="//www.polymer-project.org/components/polymer/polymer.html">
-
-<my-element></my-element>
-
-<polymer-element name="my-element">
-<template>
-  <a href='#' on-click="{{linkClicked}}">my link</a>
-</template>
-<script>
-  Polymer('my-element', {
-    linkClicked: function(event, detail, sender) {
-      event.preventDefault();
-    }
-  });
-</script>
-</polymer-element>
-
 
 <dom-module id="ig-view">
   <template>
