@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" type="text/css" href="iv-viewer.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="import" href="polymer/polymer/polymer-element.html">
+    <link rel="import" href="igpanel.html">
 
     <script src="https://polygit.org/components/webcomponentsjs/webcomponents-loader.js"></script>
     <link rel="import" href="igview.html">
@@ -18,6 +20,369 @@
 
   </head>
 
+<dom-module id="ig-view">
+  <template>
+    <style>
+      :host
+      {
+        display: inline-block;
+        min-width: 100%;
+        text-align: center;
+      }
+
+      .viewer
+      {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        font-size: 0;
+      }
+
+      @media (min-width: 1000px)
+      {
+        .viewer
+        {
+	  width: 100%;
+        }
+      }
+
+      img
+      {
+	  min-width: 900px;
+          max-width: 1500px;
+	  width: auto;
+          height: auto;
+      }
+
+      a
+      {
+        color: #d0d0d0;
+        text-decoration: none;
+      }
+
+      .nav-button
+      {
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        z-index: 10;
+      }
+
+      #nav-b
+      {
+        left: 0;
+      }
+
+      #nav-f
+      {
+        right: 0;
+      }
+
+      #progress
+      {
+        display: block;
+        color: #d0d0d0;
+        font-family: "Open Sans";
+        font-size: 25px;
+        padding: 20px 0 20px 0;
+        cursor: pointer;
+      }
+
+      #progress span
+      {
+        font-weight: bold;
+      }
+
+      #progress.hidden
+      {
+        display: none;
+      }
+
+      :host(.wide) .viewer,:host(.tall) .viewer,:host(.original) .viewer
+      {
+        max-width: initial;
+      }
+
+      :host(.tall) .viewer img
+      {
+        width: auto;
+        height: 100vh;
+      }
+
+      :host(.original) .viewer img
+      {
+        width: auto;
+      }
+
+      .fit-popup
+      {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        margin-left: -60px;
+        width: 120px;
+        height: 100px;
+        background-color: rgba(255,255,255,.6);
+        border-radius: 0 0 15px 15px;
+        opacity: 0;
+        transition: opacity .15s;
+      }
+
+      .fit-popup.show
+      {
+        opacity: 1;
+      }
+
+      #fit-popimg
+      {
+        width: auto;
+        margin-top: 7px;
+      }
+    </style>
+
+    <div class="viewer">
+      <a id="nav-b" class="nav-button" on-click="navBackward" href=""></a>
+      <a id="nav-f" class="nav-button" on-click="navForward" href=""></a>
+      <img src="[[curImg]]">
+    </div>
+
+    <a id="progress" class="hidden" on-click="showPanel"><span>[[currentIndexB]]</span> of <span>[[totalImg]]</span></a>
+
+    <ig-panel id="panel" class="hidden unclickable"></ig-panel>
+
+    <div id="fit-popup" class="fit-popup"><img id="fit-popimg"></div>
+  </template>
+
+  <script>
+    /*
+      array imgs: array of img links
+      int currentIndex: index of current shown img
+      int keyboardDisable;
+      bound-int currentIndexB: bindable version of currentIndex, incremented by 1
+      bound-int totalImg: number of loaded images
+      bound-string curImg: src img of current displayed image
+      timeout currentFitTime
+    */
+    class igView extends Polymer.Element
+    {
+      static get is()
+      {
+        return "ig-view";
+      }
+
+      static get properties()
+      {
+        return {
+
+        };
+      }
+
+      ready()
+      {
+        super.ready();
+
+        this.currentIndex=0;
+        this.totalImg=0;
+
+        this.keyboardDisable=0;
+        this.IvViewer=new ImageViewer.FullScreenViewer();
+        this.IvShown=false;
+        this.lastZoom=100;
+
+        document.addEventListener("keydown",(e)=>{
+          if (e.key=="a")
+          {
+            this.doIvHide();
+            if (this.$["panel"].classList.contains("hidden"))
+            {
+              this.showPanel();
+            }
+
+            else
+            {
+              this.$["panel"].panelHide();
+            }
+          }
+
+          if (this.keyboardDisable)
+          {
+            return;
+          }
+
+          if (e.key=="ArrowRight")
+          {
+            this.navForward();
+
+            if (this.IvShown)
+            {
+              this.doIvShow(this.curImg);
+            }
+          }
+
+          else if (e.key=="ArrowLeft")
+          {
+            this.navBackward();
+
+            if (this.IvShown)
+            {
+              this.doIvShow(this.curImg);
+            }
+          }
+
+          else if (e.key=="i")
+          {
+            if (!this.IvShown)
+            {
+              this.doIvShow(this.curImg);
+            }
+
+            else
+            {
+              this.doIvHide();
+            }
+          }
+
+          else if (e.key=="m")
+          {
+            this.$["panel"].viewerFit(0);
+
+            this.doIvHide();
+          }
+
+          else if (e.key=="Escape")
+          {
+            this.doIvHide();
+          }
+        });
+      }
+
+      //hide the iv viewer
+      doIvHide()
+      {
+        this.IvViewer.hide();
+        this.IvShown=false;
+      }
+
+      //show the iv viewer. if the iv viewer is already showing, update the image
+      //while keeping the zoom
+      doIvShow(img)
+      {
+        if (this.IvShown)
+        {
+          var lastZoom=this.IvViewer._state.zoomValue;
+          this.IvViewer.show(this.curImg);
+
+          this.tryZoom(lastZoom);
+
+          return;
+        }
+
+        this.IvViewer.show(this.curImg);
+        this.IvShown=true;
+      }
+
+      //try to zoom in, if it isnt loaded yet, wait a bit
+      tryZoom(targetZoomLevel)
+      {
+        setTimeout(()=>{
+          if (!this.IvViewer._state.loaded)
+          {
+            this.tryZoom(targetZoomLevel);
+            return;
+          }
+
+          this.IvViewer.zoom(targetZoomLevel);
+        },100);
+      }
+
+      //load array of image string urls
+      loadImgs(imgs)
+      {
+        this.imgs=imgs;
+        this.totalImg=imgs.length;
+        this.$.progress.classList.remove("hidden");
+
+        this.$.panel.loadNTImgs(this.imgs);
+
+        this.viewImg(0);
+      }
+
+      //jump to given index
+      viewImg(index)
+      {
+        if (index>=this.imgs.length || index<0)
+        {
+          //insert something for end or beginning of gallery here
+          return;
+        }
+
+        this.currentIndex=index;
+        this.currentIndexB=index+1;
+        this.curImg=this.imgs[index];
+      }
+
+      navForward(e)
+      {
+        if (e)
+        {
+          e.preventDefault();
+        }
+
+        this.viewImg(this.currentIndex+1);
+        window.scrollTo(0,0);
+      }
+
+      navBackward(e)
+      {
+        if (e)
+        {
+          e.preventDefault();
+        }
+
+        this.viewImg(this.currentIndex-1);
+        window.scrollTo(0,0);
+      }
+
+      showPanel(e)
+      {
+        if (e)
+        {
+          e.preventDefault();
+        }
+
+        this.$.panel.classList.remove("unclickable");
+        this.$.panel.jumpTo(this.currentIndex);
+        document.body.classList.add("noscroll");
+        this.keyboardDisable=1;
+
+        setTimeout(()=>{
+          this.$.panel.classList.remove("hidden");
+        },30);
+      }
+
+      //call with a fit number to display the fit popup
+      showFitPopup(fit)
+      {
+        this.$["fit-popimg"].src=`icons/dark/${fit}.png`;
+
+        this.$["fit-popup"].classList.add("show");
+
+        if (this.currentFitTime)
+        {
+          clearTimeout(this.currentFitTime);
+        }
+
+        this.currentFitTime=setTimeout(()=>{
+          this.$["fit-popup"].classList.remove("show");
+        },500);
+      }
+    }
+
+    customElements.define(igView.is,igView);
+  </script>
+</dom-module>  
+  
   <body>
     <ig-view></ig-view>
   </body>
