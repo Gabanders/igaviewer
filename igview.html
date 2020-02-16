@@ -6,6 +6,19 @@
 
 <link rel="import" href="igpanel.html" import-dependency>
 
+<body>
+  <script>
+    HTMLImports.whenReady(function () {
+      MyElement = Polymer({
+        is: 'my-element',
+        created: function() {
+          this.textContent = 'My element!';
+        }
+      });
+    });
+  </script>
+</body>
+
 <dom-module id="ig-view">
   <template>
     <style>
